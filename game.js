@@ -19,9 +19,9 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload () {
-    this.load.image('clouds', 'images/clouds.png');
-    this.load.image('wallLong', 'images/wall-long.png');
-    this.load.spritesheet('player', 'images/player.png', { frameWidth:64, frameHeight:64});
+    this.load.image('clouds', './images/clouds.png');
+    this.load.image('wallLong', './images/wall-long.png');
+    this.load.spritesheet('player', './images/player.png', { frameWidth:64, frameHeight:64});
 }
 
 function create () {
