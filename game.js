@@ -16,11 +16,22 @@ var config = {
     }
 };
 
+// Game variables
+//var current_time = this.time.time;
+//var latest_spawn = current_time;
+
+// Initialise
+var player;
+var platforms;
+var notes;
+
+// Create game object
 var game = new Phaser.Game(config);
 
 function preload () {
     this.load.image('clouds', './images/clouds.png');
     this.load.image('wallLong', './images/wall-long.png');
+    this.load.image('note', './images/note.png');
     this.load.spritesheet('player', './images/player.png', { frameWidth:64, frameHeight:64});
 }
 
@@ -28,6 +39,7 @@ function create () {
     // Sky and platforms
     this.add.image(400,300, 'clouds');
     
+    // Create group and add items to it
     platforms = this.physics.add.staticGroup();
     platforms.create(0,450, 'wallLong');
     platforms.create(400,600, 'wallLong');
@@ -38,8 +50,6 @@ function create () {
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     
-    this.physics.add.collider(player, platforms);
-
     // Player animations
     this.anims.create({
         key: 'left',
@@ -63,6 +73,14 @@ function create () {
 
     // Player Controls
     cursors = this.input.keyboard.createCursorKeys();
+
+    // Notes group
+    notes = this.physics.add.group();
+    notes.create(600, 0, 'note');
+
+    // Colliders
+    this.physics.add.collider(player, platforms);
+    this.physics.add.overlap(player, notes, noteHit, null, this); // Player and note can collide
 
 }
 
@@ -88,5 +106,12 @@ function update () {
     {
         player.setVelocityY(-330);
     }
-
 }
+
+
+function noteHit (player, note)
+{
+    note.disableBody(true, true);
+}
+
+
